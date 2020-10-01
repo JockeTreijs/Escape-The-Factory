@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class EnemyBehaviour : MonoBehaviour
 {
@@ -8,11 +9,30 @@ public class EnemyBehaviour : MonoBehaviour
     private float currentHealth; //enemy current health
     private float minHealth = 1; //the minimum health the enemy can haves
     private float stunDuration; //how long the enemy is stunned, 3 by default as noted in the start
-
-    private void Start()
+    public Transform[] points;
+    private int destPoint;
+    public GameObject target;
+    public NavMeshAgent agent;
+    public void Start()
     {
         stunDuration = 3;
         currentHealth = maxHealth;
+        agent = GetComponent<NavMeshAgent>();
+        agent.autoBraking = false;
+        GoToNextPoint();
+    }
+
+    void GoToNextPoint()
+    {
+        if (points.Length == 0)
+            return;
+        agent.destination = points[destPoint].position;
+        destPoint = (destPoint + 1) % points.Length;
+    }
+    private void Update()
+    {
+        if (!agent.pathPending && agent.remainingDistance < 0.5f)
+            GoToNextPoint();
     }
     public void TakeDamage()
     {
@@ -39,4 +59,7 @@ public class EnemyBehaviour : MonoBehaviour
     {
         //make the drone be stunned here
     }
+
+
+
 }
