@@ -10,6 +10,7 @@ public class OilCan : MonoBehaviour
     public bool pickedUp;
     public GameObject oilCan;
     public GameObject mainCamera;
+    public float distance;
 
     // Start is called before the first frame update
     void Start()
@@ -31,6 +32,7 @@ public class OilCan : MonoBehaviour
             if(Input.GetKeyDown(KeyCode.E))
             {
                 oilCan.transform.parent = mainCamera.transform;
+                oilCan.transform.position = Camera.main.transform.position + Camera.main.transform.forward * distance;
                 pickedUp = true;
             }
 
