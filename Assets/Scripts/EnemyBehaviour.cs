@@ -31,7 +31,7 @@ public class EnemyBehaviour : MonoBehaviour
     }
     private void Update()
     {
-        if (!agent.pathPending && agent.remainingDistance < 0.5f)
+        if (!agent.pathPending && agent.remainingDistance < 1f)
             GoToNextPoint();
     }
     public void TakeDamage()
