@@ -11,6 +11,7 @@ public class OilCan : MonoBehaviour
     public GameObject oilCan;
     public GameObject mainCamera;
     public float distance;
+    public GameObject throwableOilcan;
 
     // Start is called before the first frame update
     void Start()
@@ -29,7 +30,7 @@ public class OilCan : MonoBehaviour
     {
         if (other.tag == "Player")
         {
-            if(Input.GetKeyDown(KeyCode.E))
+            if (Input.GetKeyDown(KeyCode.E))
             {
                 oilCan.transform.parent = mainCamera.transform;
                 oilCan.transform.position = Camera.main.transform.position + Camera.main.transform.forward * distance;
@@ -41,8 +42,11 @@ public class OilCan : MonoBehaviour
                 player.AddHealth(1);
                 Destroy(gameObject);
             }
+
+            if (Input.GetMouseButtonDown(1) && pickedUp == true)
+            {
+
+            }
         }
     }
-
-
 }
