@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -11,8 +12,11 @@ public class EnemyBehaviour : MonoBehaviour
     private float stunDuration; //how long the enemy is stunned, 3 by default as noted in the start
     public Transform[] points;
     private int destPoint;
-    public GameObject target;
+    public Transform target;
     public NavMeshAgent agent;
+    private BoxCollider visionCollider;
+    private bool engagePlayer = false;
+    private bool canAttack;
     public void Start()
     {
         stunDuration = 3;
@@ -20,6 +24,8 @@ public class EnemyBehaviour : MonoBehaviour
         agent = GetComponent<NavMeshAgent>();
         agent.autoBraking = false;
         GoToNextPoint();
+        visionCollider = GetComponent<BoxCollider>();
+        canAttack = true;
     }
 
     void GoToNextPoint()
@@ -31,8 +37,18 @@ public class EnemyBehaviour : MonoBehaviour
     }
     private void Update()
     {
-        if (!agent.pathPending && agent.remainingDistance < 1f)
+        if (!agent.pathPending && agent.remainingDistance < 1f && engagePlayer == false)
             GoToNextPoint();
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.CompareTag("Player"))
+        {
+            engagePlayer = true;
+            target = other.transform;
+            EngageTarget();
+        }
     }
     public void TakeDamage()
     {
@@ -51,6 +67,11 @@ public class EnemyBehaviour : MonoBehaviour
             Stun();
         }
     }
+
+    void EngageTarget()
+    {
+        agent.destination = target.position;
+    }
     void Death()
     {
         Destroy(gameObject); // death :(
@@ -58,6 +79,8 @@ public class EnemyBehaviour : MonoBehaviour
     void Stun()
     {
         //make the drone be stunned here
+        canAttack = false;
+
     }
 
 

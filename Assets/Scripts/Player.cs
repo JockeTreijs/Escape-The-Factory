@@ -18,7 +18,6 @@ public class Player : MonoBehaviour
     {
 
     }
-
     public void RemoveHealth (int playerHealth)
     {
         health -= playerHealth;
