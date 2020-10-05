@@ -11,6 +11,8 @@ public class OilCan : MonoBehaviour
     public GameObject oilCan;
     public GameObject mainCamera;
     public float distance;
+    public float throwSpeed;
+    public GameObject throwableOilcan;
 
     // Start is called before the first frame update
     void Start()
@@ -41,8 +43,18 @@ public class OilCan : MonoBehaviour
                 player.AddHealth(1);
                 Destroy(gameObject);
             }
+
+            if (Input.GetMouseButtonDown(1) && pickedUp == true)
+            {
+                ThrowOilcan();
+                Destroy(gameObject);
+            }
         }
     }
-
-
+    public void ThrowOilcan()
+    {
+            UnityEngine.Vector3 spawnPoint = transform.position + (transform.rotation * new UnityEngine.Vector3(this.gameObject.transform.localPosition.x, this.gameObject.transform.localPosition.y, this.gameObject.transform.localPosition.z));
+            GameObject fire = Instantiate(throwableOilcan, spawnPoint, UnityEngine.Quaternion.identity);
+            fire.GetComponent<Rigidbody>().AddForce(this.gameObject.transform.forward * throwSpeed);
+    }
 }
