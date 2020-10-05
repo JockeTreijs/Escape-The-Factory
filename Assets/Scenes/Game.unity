@@ -1074,7 +1074,7 @@ PrefabInstance:
     - target: {fileID: 1066100994353101314, guid: c30908faf29fd0b4aae0da30941eacd2,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 6
+      value: 32
       objectReference: {fileID: 0}
     - target: {fileID: 1066100994353101314, guid: c30908faf29fd0b4aae0da30941eacd2,
         type: 3}
@@ -1084,7 +1084,7 @@ PrefabInstance:
     - target: {fileID: 1066100994353101314, guid: c30908faf29fd0b4aae0da30941eacd2,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: -0.45
+      value: 21.55
       objectReference: {fileID: 0}
     - target: {fileID: 1066100994353101314, guid: c30908faf29fd0b4aae0da30941eacd2,
         type: 3}
@@ -3675,6 +3675,17 @@ PrefabInstance:
         type: 3}
       propertyPath: offset
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2420015626297251353, guid: 0276047ac5773b4438727cb6ecae1c44,
+        type: 3}
+      propertyPath: throwableOilcan
+      value: 
+      objectReference: {fileID: 4797980015662759181, guid: c563aafcc8f5bf34f9196fa9fd7b72ce,
+        type: 3}
+    - target: {fileID: 2420015626297251353, guid: 0276047ac5773b4438727cb6ecae1c44,
+        type: 3}
+      propertyPath: throwSpeed
+      value: 625
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0276047ac5773b4438727cb6ecae1c44, type: 3}
