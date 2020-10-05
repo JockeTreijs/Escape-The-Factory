@@ -14,9 +14,11 @@ public class EnemyBehaviour : MonoBehaviour
     private int destPoint;
     public Transform target;
     public NavMeshAgent agent;
+    public int currentPoint;
     private BoxCollider visionCollider;
     private bool engagePlayer = false;
     private bool canAttack;
+    private bool checkTarget = false;
     public void Start()
     {
         stunDuration = 3;
@@ -27,27 +29,43 @@ public class EnemyBehaviour : MonoBehaviour
         visionCollider = GetComponent<BoxCollider>();
         canAttack = true;
     }
-
     void GoToNextPoint()
     {
-        if (points.Length == 0)
-            return;
-        agent.destination = points[destPoint].position;
-        destPoint = (destPoint + 1) % points.Length;
+        if (engagePlayer == false)
+        {
+            if (points.Length == 0)
+                return;
+            agent.destination = points[destPoint].position;
+            destPoint = (destPoint + 1) % points.Length;
+            currentPoint = destPoint;
+        }
     }
     private void Update()
     {
         if (!agent.pathPending && agent.remainingDistance < 1f && engagePlayer == false)
+        {
             GoToNextPoint();
+        }
+        else if (engagePlayer)
+        {
+            EngageTarget();
+        }
+        transform.position = new Vector3(transform.position.x, 0, transform.position.z);
     }
-
     private void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.CompareTag("Player"))
         {
             engagePlayer = true;
             target = other.transform;
-            EngageTarget();
+        }
+    }
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.gameObject.CompareTag("Player"))
+        {
+            engagePlayer = false;
+            target = null;
         }
     }
     public void TakeDamage()
@@ -67,7 +85,6 @@ public class EnemyBehaviour : MonoBehaviour
             Stun();
         }
     }
-
     void EngageTarget()
     {
         agent.destination = target.position;
@@ -79,10 +96,6 @@ public class EnemyBehaviour : MonoBehaviour
     void Stun()
     {
         //make the drone be stunned here
-        canAttack = false;
-
+        //canAttack = false;
     }
-
-
-
 }
