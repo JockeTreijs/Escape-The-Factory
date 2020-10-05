@@ -74,11 +74,11 @@ GameObject:
   - component: {fileID: 2745553573621466234}
   - component: {fileID: 2745553573621466235}
   - component: {fileID: 2745553573621466232}
-  - component: {fileID: 2745553573621466233}
   - component: {fileID: 2745553573621466214}
   - component: {fileID: 2745553573621466215}
   - component: {fileID: 2745553573621466237}
   - component: {fileID: 616042198}
+  - component: {fileID: 898878969}
   m_Layer: 8
   m_Name: Enemy
   m_TagString: Enemy
@@ -147,19 +147,6 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!65 &2745553573621466233
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2745553573621466212}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &2745553573621466214
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -178,6 +165,9 @@ MonoBehaviour:
   target: {fileID: 0}
   agent: {fileID: 2745553573621466237}
   currentPoint: 0
+  enemyDamage: 1
+  startTime: 0
+  droneAtkCD: 2
 --- !u!54 &2745553573621466215
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -192,7 +182,7 @@ Rigidbody:
   m_UseGravity: 0
   m_IsKinematic: 1
   m_Interpolate: 0
-  m_Constraints: 4
+  m_Constraints: 36
   m_CollisionDetection: 0
 --- !u!195 &2745553573621466237
 NavMeshAgent:
@@ -229,6 +219,19 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1.5, y: 2, z: 4.2480254}
   m_Center: {x: 0, y: 0, z: 2.8759873}
+--- !u!135 &898878969
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2745553573621466212}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.51323235
+  m_Center: {x: 0, y: -0.98676765, z: 0.8000001}
 --- !u!1 &2745553573801873199
 GameObject:
   m_ObjectHideFlags: 0
