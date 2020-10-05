@@ -42,61 +42,15 @@ public class EnemyBehaviour : MonoBehaviour
     }
     private void Update()
     {
-        if (!agent.pathPending && agent.remainingDistance < 1f)
+        if (!agent.pathPending && agent.remainingDistance < 1f && engagePlayer == false)
         {
             GoToNextPoint();
         }
-        if (checkTarget)
-        {// Bit shift the index of the layer (8) to get a bit mask
-            int layerMask = 1 << 8;
-            //// This would cast rays only against colliders in layer 8.
-            //// But instead we want to collide against everything except layer 8. The ~ operator does this, it inverts a bitmask.
-            layerMask = ~layerMask;
-            RaycastHit hit;
-            // Does the ray intersect any objects excluding the enemy layer
-            if (Physics.Raycast(transform.position, target.position, out hit, 999f, layerMask, QueryTriggerInteraction.Ignore))
-            {
-                if (hit.collider.gameObject.CompareTag("Player"))
-                {
-                    Debug.DrawRay(transform.position, target.position * hit.distance, Color.yellow);
-                    Debug.Log("Did Hit");
-                    EngageTarget();
-                }
-            }
-            else
-            {
-                Debug.DrawRay(transform.position, target.transform.position * 1000, Color.white);
-                Debug.Log("Did not Hit");
-            }
+        else if (engagePlayer)
+        {
+            EngageTarget();
         }
-    }
-    void FixedUpdate()
-    {
-        //if (checkTarget)
-        //{// Bit shift the index of the layer (8) to get a bit mask
-        //    int layerMask = 1 << 8;
-
-        //    //// This would cast rays only against colliders in layer 8.
-        //    //// But instead we want to collide against everything except layer 8. The ~ operator does this, it inverts a bitmask.
-        //    layerMask = ~layerMask;
-
-        //    RaycastHit hit;
-        //    // Does the ray intersect any objects excluding the player layer
-        //    if (Physics.Raycast(transform.position, target.position, out hit, 99999999f, layermas))
-        //    {
-        //        if (hit.collider.gameObject.CompareTag("Player"))
-        //        {
-        //            Debug.DrawRay(transform.position, target.position * hit.distance, Color.yellow);
-        //            Debug.Log("Did Hit");
-        //            EngageTarget();
-        //        }
-        //    }
-        //    else
-        //    {
-        //        Debug.DrawRay(transform.position, target.transform.position * 1000, Color.white);
-        //        Debug.Log("Did not Hit");
-        //    }
-        //}
+        transform.position = new Vector3(transform.position.x, 0, transform.position.z);
     }
     private void OnTriggerEnter(Collider other)
     {
@@ -104,7 +58,14 @@ public class EnemyBehaviour : MonoBehaviour
         {
             engagePlayer = true;
             target = other.transform;
-            checkTarget = true;
+        }
+    }
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.gameObject.CompareTag("Player"))
+        {
+            engagePlayer = false;
+            target = null;
         }
     }
     public void TakeDamage()
@@ -127,7 +88,6 @@ public class EnemyBehaviour : MonoBehaviour
     void EngageTarget()
     {
         agent.destination = target.position;
-        checkTarget = false;
     }
     void Death()
     {
