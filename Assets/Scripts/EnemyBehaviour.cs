@@ -14,9 +14,11 @@ public class EnemyBehaviour : MonoBehaviour
     private int destPoint;
     public Transform target;
     public NavMeshAgent agent;
+    public int currentPoint;
     private BoxCollider visionCollider;
     private bool engagePlayer = false;
     private bool canAttack;
+    private bool checkTarget = false;
     public void Start()
     {
         stunDuration = 3;
@@ -27,27 +29,82 @@ public class EnemyBehaviour : MonoBehaviour
         visionCollider = GetComponent<BoxCollider>();
         canAttack = true;
     }
-
     void GoToNextPoint()
     {
-        if (points.Length == 0)
-            return;
-        agent.destination = points[destPoint].position;
-        destPoint = (destPoint + 1) % points.Length;
+        if (engagePlayer == false)
+        {
+            if (points.Length == 0)
+                return;
+            agent.destination = points[destPoint].position;
+            destPoint = (destPoint + 1) % points.Length;
+            currentPoint = destPoint;
+        }
     }
     private void Update()
     {
-        if (!agent.pathPending && agent.remainingDistance < 1f && engagePlayer == false)
+        if (!agent.pathPending && agent.remainingDistance < 1f)
+        {
             GoToNextPoint();
+        }
+        if (checkTarget)
+        {// Bit shift the index of the layer (8) to get a bit mask
+            int layerMask = 1 << 8;
+            //// This would cast rays only against colliders in layer 8.
+            //// But instead we want to collide against everything except layer 8. The ~ operator does this, it inverts a bitmask.
+            layerMask = ~layerMask;
+            RaycastHit hit;
+            // Does the ray intersect any objects excluding the enemy layer
+            if (Physics.Raycast(transform.position, target.position, out hit, 999f, layerMask, QueryTriggerInteraction.Ignore))
+            {
+                if (hit.collider.gameObject.CompareTag("Player"))
+                {
+                    Debug.DrawRay(transform.position, target.position * hit.distance, Color.yellow);
+                    Debug.Log("Did Hit");
+                    EngageTarget();
+                }
+            }
+            else
+            {
+                Debug.DrawRay(transform.position, target.transform.position * 1000, Color.white);
+                Debug.Log("Did not Hit");
+            }
+        }
     }
+    void FixedUpdate()
+    {
+        //if (checkTarget)
+        //{// Bit shift the index of the layer (8) to get a bit mask
+        //    int layerMask = 1 << 8;
 
+        //    //// This would cast rays only against colliders in layer 8.
+        //    //// But instead we want to collide against everything except layer 8. The ~ operator does this, it inverts a bitmask.
+        //    layerMask = ~layerMask;
+
+        //    RaycastHit hit;
+        //    // Does the ray intersect any objects excluding the player layer
+        //    if (Physics.Raycast(transform.position, target.position, out hit, 99999999f, layermas))
+        //    {
+        //        if (hit.collider.gameObject.CompareTag("Player"))
+        //        {
+        //            Debug.DrawRay(transform.position, target.position * hit.distance, Color.yellow);
+        //            Debug.Log("Did Hit");
+        //            EngageTarget();
+        //        }
+        //    }
+        //    else
+        //    {
+        //        Debug.DrawRay(transform.position, target.transform.position * 1000, Color.white);
+        //        Debug.Log("Did not Hit");
+        //    }
+        //}
+    }
     private void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.CompareTag("Player"))
         {
             engagePlayer = true;
             target = other.transform;
-            EngageTarget();
+            checkTarget = true;
         }
     }
     public void TakeDamage()
@@ -67,10 +124,10 @@ public class EnemyBehaviour : MonoBehaviour
             Stun();
         }
     }
-
     void EngageTarget()
     {
         agent.destination = target.position;
+        checkTarget = false;
     }
     void Death()
     {
@@ -79,10 +136,6 @@ public class EnemyBehaviour : MonoBehaviour
     void Stun()
     {
         //make the drone be stunned here
-        canAttack = false;
-
+        //canAttack = false;
     }
-
-
-
 }
