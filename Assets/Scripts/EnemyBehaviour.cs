@@ -15,19 +15,24 @@ public class EnemyBehaviour : MonoBehaviour
     public Transform target;
     public NavMeshAgent agent;
     public int currentPoint;
+    public int enemyDamage = 1;
     private BoxCollider visionCollider;
     private bool engagePlayer = false;
     private bool canAttack;
     private bool checkTarget = false;
+    private SphereCollider zapSphere;
+    public float startTime = 0;
+    public float droneAtkCD = 2;
     public void Start()
     {
+        zapSphere = GetComponent<SphereCollider>();
+        visionCollider = GetComponent<BoxCollider>();
         stunDuration = 3;
         currentHealth = maxHealth;
         agent = GetComponent<NavMeshAgent>();
         agent.autoBraking = false;
         GoToNextPoint();
-        visionCollider = GetComponent<BoxCollider>();
-        canAttack = true;
+        canAttack = false;
     }
     void GoToNextPoint()
     {
@@ -50,6 +55,12 @@ public class EnemyBehaviour : MonoBehaviour
         {
             EngageTarget();
         }
+        if (canAttack && Time.time >= startTime + droneAtkCD)
+        {
+            target.GetComponent<Player>().RemoveHealth(enemyDamage);
+            startTime = Time.time;
+            //INSERT ZAP ANIMATION HERE
+        }
         transform.position = new Vector3(transform.position.x, 0, transform.position.z);
     }
     private void OnTriggerEnter(Collider other)
@@ -66,6 +77,20 @@ public class EnemyBehaviour : MonoBehaviour
         {
             engagePlayer = false;
             target = null;
+        }
+    }
+    private void OnCollisionEnter(Collision col)
+    {
+        if (col.gameObject.CompareTag("Player"))
+        {
+            canAttack = true;
+        }
+    }
+    private void OnCollisionExit(Collision col)
+    {
+        if (col.gameObject.CompareTag("Player"))
+        {
+            canAttack = false;
         }
     }
     public void TakeDamage()
