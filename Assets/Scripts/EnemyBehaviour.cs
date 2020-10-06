@@ -63,6 +63,7 @@ public class EnemyBehaviour : MonoBehaviour
         {
             target.GetComponent<Player>().RemoveHealth(enemyDamage);
             startTime = Time.time;
+            canAttack = false;
             //INSERT ZAP ANIMATION HERE
         }
         transform.position = new Vector3(transform.position.x, 0, transform.position.z);
@@ -99,6 +100,7 @@ public class EnemyBehaviour : MonoBehaviour
     }
     public void TakeDamage()
     {
+        Debug.Log("Ouch");
         currentHealth--;
         if (currentHealth == 2) //if the enemys health is down to 2 points after taking damage, it will be stunned and increase the NEXT stun by 2 seconds
         {
@@ -131,7 +133,6 @@ public class EnemyBehaviour : MonoBehaviour
         agent.isStopped = true;
         yield return new WaitForSeconds(stunDuration);
         agent.isStopped = false;
-        canAttack = true;
         //GoToNextPoint();
         yield return null;
     }

@@ -16,6 +16,16 @@ public class ThrowableOilcan : MonoBehaviour
     {
         
     }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        Debug.Log("Yeet'h");
+        if (collision.gameObject.CompareTag("Enemy"))
+        {
+            collision.gameObject.GetComponent<EnemyBehaviour>().TakeDamage();
+            Debug.Log("Hit'h");
+        }
+    }
     IEnumerator DestroyOilcanRoutine()
     {
         yield return new WaitForSeconds(5.0f);
