@@ -14,6 +14,7 @@ public class GameManager : MonoBehaviour
     {
         healthText.text = "Health 3";
         player = GameObject.Find("Player").GetComponent<Player>();
+        Cursor.visible = false;
     }
 
     // Update is called once per frame

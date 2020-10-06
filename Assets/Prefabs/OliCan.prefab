@@ -111,6 +111,6 @@ MonoBehaviour:
   oilCan: {fileID: 2420015626297251352}
   mainCamera: {fileID: 0}
   distance: 0.75
-  throwSpeed: 6.25
+  throwSpeed: 625
   throwableOilcan: {fileID: 4797980015662759181, guid: c563aafcc8f5bf34f9196fa9fd7b72ce,
     type: 3}
