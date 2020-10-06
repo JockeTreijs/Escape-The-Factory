@@ -38,7 +38,7 @@ public class OilCan : MonoBehaviour
                 pickedUp = true;
             }
 
-            if (Input.GetKeyDown(KeyCode.F) && pickedUp == true)
+            if (Input.GetKeyDown(KeyCode.F) && pickedUp == true && player.health <=2)
             {
                 player.AddHealth(1);
                 Destroy(gameObject);
