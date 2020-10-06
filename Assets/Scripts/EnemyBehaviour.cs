@@ -7,9 +7,10 @@ using UnityEngine.AI;
 public class EnemyBehaviour : MonoBehaviour
 {
     private float maxHealth = 3; //enemy max health
-    private float currentHealth; //enemy current health
+    public float currentHealth; //enemy current health
     private float minHealth = 1; //the minimum health the enemy can haves
     private float stunDuration; //how long the enemy is stunned, 3 by default as noted in the start
+    private float stunStart;
     public Transform[] points;
     private int destPoint;
     public Transform target;
@@ -23,10 +24,13 @@ public class EnemyBehaviour : MonoBehaviour
     private SphereCollider zapSphere;
     public float startTime = 0;
     public float droneAtkCD = 2;
+    private Rigidbody rb;
+
     public void Start()
     {
         zapSphere = GetComponent<SphereCollider>();
         visionCollider = GetComponent<BoxCollider>();
+        rb = GetComponent<Rigidbody>();
         stunDuration = 3;
         currentHealth = maxHealth;
         agent = GetComponent<NavMeshAgent>();
@@ -96,19 +100,22 @@ public class EnemyBehaviour : MonoBehaviour
     public void TakeDamage()
     {
         currentHealth--;
+        if (currentHealth == 2) //if the enemys health is down to 2 points after taking damage, it will be stunned and increase the NEXT stun by 2 seconds
+        {
+            StartCoroutine(Stunned(stunDuration));
+            stunDuration = stunDuration + 2;
+        }
+
+        if (currentHealth == 1) //if the enemys health is down to 1 point after taking damage, it will be stunned for 5 seconds
+        {
+            StartCoroutine(Stunned(stunDuration));
+        }
+
         if (currentHealth < minHealth)
         {
             Death();
         }
-        if (currentHealth == 2) //if the enemys health is down to 2 points after taking damage, it will be stunned and increase the NEXT stun by 2 seconds
-        {
-            Stun();
-            stunDuration = stunDuration + 2;
-        }
-        else if (currentHealth == 1) //if the enemys health is down to 1 point after taking damage, it will be stunned for 5 seconds
-        {
-            Stun();
-        }
+
     }
     void EngageTarget()
     {
@@ -118,9 +125,14 @@ public class EnemyBehaviour : MonoBehaviour
     {
         Destroy(gameObject); // death :(
     }
-    void Stun()
+    IEnumerator Stunned(float stunDuration)
     {
-        //make the drone be stunned here
-        //canAttack = false;
+        canAttack = false;
+        agent.isStopped = true;
+        yield return new WaitForSeconds(stunDuration);
+        agent.isStopped = false;
+        canAttack = true;
+        //GoToNextPoint();
+        yield return null;
     }
 }
