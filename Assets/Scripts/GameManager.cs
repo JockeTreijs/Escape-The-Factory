@@ -8,13 +8,21 @@ public class GameManager : MonoBehaviour
 {
     public Text healthText;
     public Player player;
+    private Button startButton;
+    private Button quitButton;
 
     // Start is called before the first frame update
     void Start()
     {
         healthText.text = "Health 3";
+
         player = GameObject.Find("Player").GetComponent<Player>();
-        Cursor.visible = false;
+
+        startButton = GameObject.Find("StartButton").GetComponent<Button>();
+        startButton.onClick.AddListener(StartGame);
+
+        quitButton = GameObject.Find("QuitButton").GetComponent<Button>();
+        quitButton.onClick.AddListener(QuitGame);
     }
 
     // Update is called once per frame
@@ -34,5 +42,20 @@ public class GameManager : MonoBehaviour
         {
             SceneManager.LoadScene("Game");
         }
+    }
+
+    public void StartGame()
+    {
+        SceneManager.LoadScene("Game");
+    }
+
+    public void QuitGame()
+    {
+        Application.Quit();
+    }
+
+    public void MainMenu()
+    {
+        SceneManager.LoadScene("Start");
     }
 }
