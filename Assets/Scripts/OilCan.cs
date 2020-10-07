@@ -53,8 +53,8 @@ public class OilCan : MonoBehaviour
     }
     public void ThrowOilcan()
     {
-            UnityEngine.Vector3 spawnPoint = transform.position + (transform.rotation * new UnityEngine.Vector3(this.gameObject.transform.localPosition.x, this.gameObject.transform.localPosition.y, this.gameObject.transform.localPosition.z));
-            GameObject fire = Instantiate(throwableOilcan, spawnPoint, UnityEngine.Quaternion.identity);
-            fire.GetComponent<Rigidbody>().AddForce(this.gameObject.transform.forward * throwSpeed);
+        UnityEngine.Vector3 spawnPoint = transform.position + (transform.rotation * new UnityEngine.Vector3(this.gameObject.transform.localPosition.x, this.gameObject.transform.localPosition.y, this.gameObject.transform.localPosition.z));
+        GameObject fire = Instantiate(throwableOilcan, spawnPoint, transform.rotation);
+        fire.GetComponent<Rigidbody>().AddForce(fire.transform.forward * throwSpeed);
     }
 }
