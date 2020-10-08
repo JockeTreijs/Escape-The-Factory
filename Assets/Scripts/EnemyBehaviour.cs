@@ -35,6 +35,8 @@ public class EnemyBehaviour : MonoBehaviour
 
     private bool coroutineActive = false;
 
+    public AudioSource lockOn;
+
     public void Start()
     {
         zapSphere = GetComponent<SphereCollider>();
@@ -102,6 +104,7 @@ public class EnemyBehaviour : MonoBehaviour
         if (col.gameObject.CompareTag("Player"))
         {
             canAttack = true;
+            lockOn.Play(0);
         }
     }
     private void OnCollisionExit(Collision col)
@@ -132,7 +135,7 @@ public class EnemyBehaviour : MonoBehaviour
 
     }
     void EngageTarget()
-    {   
+    {
         agent.destination = target.position;
         spotLight.color = lightColorAngry;
         faceLight.color = lightColorAngry;

@@ -8,6 +8,7 @@ public class Player : MonoBehaviour
     public int health = 3;
     public GameObject panel;
     public bool show;
+    public AudioSource takeDamage;
 
     // Start is called before the first frame update
     void Start()
@@ -26,7 +27,7 @@ public class Player : MonoBehaviour
     {
         health -= playerHealth;
         gameManager.UpdateHealth(health);
-
+        takeDamage.Play(0);
     }
 
     public void AddHealth(int playerHealth)
@@ -38,7 +39,7 @@ public class Player : MonoBehaviour
 
     IEnumerator ShowPanelRoutine()
     {
-        if(show == true)
+        if(show == true && panel != null)
         {
             panel.SetActive(true);
             yield return new WaitForSeconds(10);

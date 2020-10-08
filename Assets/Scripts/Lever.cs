@@ -9,6 +9,7 @@ public class Lever : MonoBehaviour
     public UnityEngine.Vector3 endPosition = new UnityEngine.Vector3(7, 3, 3);
     public float speed;
     public bool leverUsed;
+    public AudioSource leverSound;
 
     // Start is called before the first frame update
     void Start()
@@ -30,7 +31,8 @@ public class Lever : MonoBehaviour
             {
                 StartCoroutine(OpenDoorRoutine());
                 leverUsed = true;
-
+                leverSound.Play(0);
+                door.GetComponent<DoorDoubleOpen>().PlaySound();
             }
         }
     }

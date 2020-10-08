@@ -40,8 +40,13 @@ public class DoorDoubleOpen : MonoBehaviour
 
     public void OpenDoor()
     {
-        audioSource.PlayOneShot(airLock, 0.7f);
+
+        Debug.Log("Do I open??!!!!");
         openDoorNumber++;
         //StartCoroutine(OpenDoorRoutine());
+    }
+    public void PlaySound()
+    {
+        audioSource.Play(0);
     }
 }
