@@ -3,7 +3,17 @@ guid: c87ee6f5a5fbe9248bddf53408ba4f9a
 ModelImporter:
   serializedVersion: 19300
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: LeverMat
+    second: {fileID: 2100000, guid: d8b424d519b4ac545bcdc72670de32d8, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: PanelMat
+    second: {fileID: 2100000, guid: f90ac196b6864be4f8f3478aac423294, type: 2}
   materials:
     materialImportMode: 1
     materialName: 0
