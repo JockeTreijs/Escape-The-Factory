@@ -25,6 +25,15 @@ public class EnemyBehaviour : MonoBehaviour
     public float startTime = 0;
     public float droneAtkCD = 2;
     private Rigidbody rb;
+    public Light spotLight;
+    private Color lightColorBase;
+    public Color lightColorAngry;
+    public Color lightColorStunned;
+
+    public Light faceLight;
+    public Light faceRoundLight;
+
+    private bool coroutineActive = false;
 
     public void Start()
     {
@@ -37,6 +46,7 @@ public class EnemyBehaviour : MonoBehaviour
         agent.autoBraking = false;
         GoToNextPoint();
         canAttack = false;
+        lightColorBase = spotLight.color;
     }
     void GoToNextPoint()
     {
@@ -55,7 +65,7 @@ public class EnemyBehaviour : MonoBehaviour
         {
             GoToNextPoint();
         }
-        else if (engagePlayer)
+        else if (engagePlayer && coroutineActive == false)
         {
             EngageTarget();
         }
@@ -70,7 +80,7 @@ public class EnemyBehaviour : MonoBehaviour
     }
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.CompareTag("Player"))
+        if (other.gameObject.CompareTag("Player") && coroutineActive == false)
         {
             engagePlayer = true;
             target = other.transform;
@@ -78,10 +88,13 @@ public class EnemyBehaviour : MonoBehaviour
     }
     private void OnTriggerExit(Collider other)
     {
-        if (other.gameObject.CompareTag("Player"))
+        if (other.gameObject.CompareTag("Player") && coroutineActive == false)
         {
             engagePlayer = false;
             target = null;
+            spotLight.color = lightColorBase;
+            faceLight.color = lightColorBase;
+            faceRoundLight.color = lightColorBase;
         }
     }
     private void OnCollisionEnter(Collision col)
@@ -100,7 +113,6 @@ public class EnemyBehaviour : MonoBehaviour
     }
     public void TakeDamage()
     {
-        Debug.Log("Ouch");
         currentHealth--;
         if (currentHealth == 2) //if the enemys health is down to 2 points after taking damage, it will be stunned and increase the NEXT stun by 2 seconds
         {
@@ -120,8 +132,11 @@ public class EnemyBehaviour : MonoBehaviour
 
     }
     void EngageTarget()
-    {
+    {   
         agent.destination = target.position;
+        spotLight.color = lightColorAngry;
+        faceLight.color = lightColorAngry;
+        faceRoundLight.color  = lightColorAngry;
     }
     void Death()
     {
@@ -129,9 +144,17 @@ public class EnemyBehaviour : MonoBehaviour
     }
     IEnumerator Stunned(float stunDuration)
     {
+        coroutineActive = true;
         canAttack = false;
         agent.isStopped = true;
+        faceLight.color = lightColorStunned;
+        faceRoundLight.color = lightColorStunned;
+        spotLight.color = lightColorStunned;
         yield return new WaitForSeconds(stunDuration);
+        coroutineActive = false;
+        faceLight.color = lightColorBase;
+        faceRoundLight.color = lightColorBase;
+        spotLight.color = lightColorBase;
         agent.isStopped = false;
         //GoToNextPoint();
         yield return null;
