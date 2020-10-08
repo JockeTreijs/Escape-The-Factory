@@ -24,7 +24,7 @@ public class OilCan : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
+        Throwing();
     }
 
     public void OnTriggerStay(Collider other)
@@ -35,6 +35,7 @@ public class OilCan : MonoBehaviour
             {
                 oilCan.transform.parent = mainCamera.transform;
                 oilCan.transform.position = Camera.main.transform.position + Camera.main.transform.forward * distance;
+                oilCan.transform.rotation = Camera.main.transform.rotation;
                 pickedUp = true;
             }
 
@@ -43,18 +44,21 @@ public class OilCan : MonoBehaviour
                 player.AddHealth(1);
                 Destroy(gameObject);
             }
-
-            if (Input.GetMouseButtonDown(1) && pickedUp == true)
-            {
-                ThrowOilcan();
-                Destroy(gameObject);
-            }
         }
     }
     public void ThrowOilcan()
     {
         UnityEngine.Vector3 spawnPoint = transform.position + (transform.rotation * new UnityEngine.Vector3(this.gameObject.transform.localPosition.x, this.gameObject.transform.localPosition.y, this.gameObject.transform.localPosition.z));
-        GameObject fire = Instantiate(throwableOilcan, spawnPoint, transform.rotation);
-        fire.GetComponent<Rigidbody>().AddForce(fire.transform.forward * throwSpeed);
+        GameObject throwable = Instantiate(throwableOilcan, spawnPoint, transform.rotation);
+        throwable.GetComponent<Rigidbody>().AddForce(throwable.transform.forward * throwSpeed);
+    }
+
+    public void Throwing()
+    {
+        if (Input.GetMouseButtonDown(1) && pickedUp == true)
+        {
+            ThrowOilcan();
+            Destroy(gameObject);
+        }
     }
 }
