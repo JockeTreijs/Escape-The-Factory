@@ -11,6 +11,9 @@ public class DoorDoubleOpen : MonoBehaviour
     private UnityEngine.Vector3 initialPosition1 = new UnityEngine.Vector3(25, 0.5f, 15);
     private UnityEngine.Vector3 endPosition1 = new UnityEngine.Vector3(25, 3, 15);
     public bool openDoor = false;
+
+    public AudioClip airLock;
+    public AudioSource audioSource;
     //public float doorSpeed;
 
     // Start is called before the first frame update
@@ -37,6 +40,7 @@ public class DoorDoubleOpen : MonoBehaviour
 
     public void OpenDoor()
     {
+        audioSource.PlayOneShot(airLock, 0.7f);
         openDoorNumber++;
         //StartCoroutine(OpenDoorRoutine());
     }
