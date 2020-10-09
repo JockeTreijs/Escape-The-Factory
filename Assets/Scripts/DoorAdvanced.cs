@@ -20,7 +20,9 @@ public class DoorAdvanced : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-
+        endPosition = new Vector3(doorOne.transform.position.x, doorOne.transform.position.y + 3, doorOne.transform.position.z);
+        endPosition1 = new Vector3(doorTwo.transform.position.x, doorTwo.transform.position.y + 3, doorTwo.transform.position.z);
+        endPosition2 = new Vector3(doorThree.transform.position.x, doorThree.transform.position.y + 3, doorThree.transform.position.z);
     }
 
     // Update is called once per frame

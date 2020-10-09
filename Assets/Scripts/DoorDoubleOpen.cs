@@ -19,7 +19,8 @@ public class DoorDoubleOpen : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-
+        endPosition = new Vector3(doorOne.transform.position.x, doorOne.transform.position.y + 1.5f, doorOne.transform.position.z);
+        endPosition1 = new Vector3(doorOne.transform.position.x, doorOne.transform.position.y + 1.5f, doorOne.transform.position.z);
     }
 
     // Update is called once per frame
