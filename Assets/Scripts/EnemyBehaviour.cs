@@ -32,12 +32,15 @@ public class EnemyBehaviour : MonoBehaviour
 
     public Light faceLight;
     public Light faceRoundLight;
+    
 
     private bool coroutineActive = false;
 
     public AudioSource lockOn;
     public ParticleSystem leftZap;
     public ParticleSystem rightZap;
+
+    public int minHeight = 0;
 
     public void Start()
     {
@@ -82,7 +85,7 @@ public class EnemyBehaviour : MonoBehaviour
             canAttack = false;
             //INSERT ZAP ANIMATION HERE
         }
-        transform.position = new Vector3(transform.position.x, 0, transform.position.z);
+        transform.position = new Vector3(transform.position.x, minHeight, transform.position.z);
     }
     private void OnTriggerEnter(Collider other)
     {
