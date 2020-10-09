@@ -36,6 +36,8 @@ public class EnemyBehaviour : MonoBehaviour
     private bool coroutineActive = false;
 
     public AudioSource lockOn;
+    public ParticleSystem leftZap;
+    public ParticleSystem rightZap;
 
     public void Start()
     {
@@ -73,6 +75,8 @@ public class EnemyBehaviour : MonoBehaviour
         }
         if (canAttack && Time.time >= startTime + droneAtkCD)
         {
+            leftZap.Play(true);
+            rightZap.Play(true);
             target.GetComponent<Player>().RemoveHealth(enemyDamage);
             startTime = Time.time;
             canAttack = false;

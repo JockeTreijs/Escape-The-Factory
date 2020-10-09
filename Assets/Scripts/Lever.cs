@@ -10,7 +10,7 @@ public class Lever : MonoBehaviour
     public float speed;
     public bool leverUsed;
     public AudioSource leverSound;
-
+    public GameObject leverMod;
     // Start is called before the first frame update
     void Start()
     {
@@ -29,6 +29,7 @@ public class Lever : MonoBehaviour
         {
             if (Input.GetKeyDown(KeyCode.E) && transform.position != endPosition && leverUsed == false)
             {
+                leverMod.GetComponent<LeverOpen>().RotateLever();
                 StartCoroutine(OpenDoorRoutine());
                 leverUsed = true;
                 leverSound.Play(0);

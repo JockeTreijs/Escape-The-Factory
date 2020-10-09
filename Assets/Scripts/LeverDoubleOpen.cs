@@ -6,7 +6,7 @@ public class LeverDoubleOpen : MonoBehaviour
 {
     public DoorDoubleOpen doorDoubleOpen;
     public bool leverUsed;
-
+    public GameObject leverMod;
     // Start is called before the first frame update
     void Start()
     {
@@ -26,6 +26,7 @@ public class LeverDoubleOpen : MonoBehaviour
         {
             if (Input.GetKeyDown(KeyCode.E) && leverUsed == false)
             {
+                leverMod.GetComponent<LeverOpen>().RotateLever();
                 leverUsed = true;
                 doorDoubleOpen.OpenDoor();
             }
